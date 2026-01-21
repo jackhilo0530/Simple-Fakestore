@@ -11,7 +11,7 @@ import {Prisma} from "./generated/prisma/client";
 const app = new Hono();
 
 app.use(
-    "/api",
+    "/*",
     cors({
         origin: ["http://localhost:5173"],
         credentials: true,
