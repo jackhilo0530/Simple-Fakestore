@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
-import { api } from "../api/client";
+import { api } from "../api/api";
 import type { Cart, Order } from "../types";
 
 type CartContextValue = {
