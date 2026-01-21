@@ -1,0 +1,41 @@
+.cart {
+    display: grid;
+    gap: 12px;
+}
+
+.cart-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cart-list {
+    display: grid;
+    gap: 12px;
+}
+
+.cart-summary {
+    padding: 14px;
+    display: grid;
+    gap: 10px;
+    max-width: 420px;
+}
+
+.cart-summary-row {
+    justify-content: space-between;
+}
+
+.cart-total {
+    font-weight: 800;
+}
+
+.cart-empty {
+    padding: 16px;
+    display: grid;
+    gap: 10px;
+    justify-items: start;
+}
+
+.error {
+    color: #b42318;
+}
