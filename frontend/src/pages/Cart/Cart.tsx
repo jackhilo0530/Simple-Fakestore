@@ -4,7 +4,7 @@ import { api } from "../../api/api";
 import { useCart } from "../../context/CartContext";
 import type { Product } from "../../types";
 import CartItem from "../../components/CartItem/CartItem";
-import "./cart.css";
+import "./Cart.css";
 
 export default function CartPage() {
     const nav = useNavigate();

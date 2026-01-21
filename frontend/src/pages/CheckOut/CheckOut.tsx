@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
 import type { Order } from "../../types";
-import "./checkout.css";
+import "./CheckOut.css";
 
 export default function CheckoutPage() {
     const nav = useNavigate();

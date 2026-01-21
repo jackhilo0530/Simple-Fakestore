@@ -1,6 +1,6 @@
 import type { Cart, Order, Product } from "../types";
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8787/api";
+const API_BASE = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:3000/api";
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const res = await fetch(`${API_BASE}${path}`, {

@@ -3,7 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { api } from "../../api/api";
 import { useCart } from "../../context/CartContext";
 import type { Product } from "../../types";
-import "./product-detail.css";
+import "./ProductDetal.css";
 
 export default function ProductDetailPage() {
     const { id } = useParams();

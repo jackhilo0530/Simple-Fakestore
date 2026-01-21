@@ -1,6 +1,6 @@
 import type { CartItem as CartItemType, Product } from "../../types";
 import { useCart } from "../../context/CartContext";
-import "./cart-item.css";
+import "./CartItem.css";
 
 export default function CartItem({
     item,

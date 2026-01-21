@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { api } from "../../api/api";
 import type { Product } from "../../types";
 import ProductCard from "../../components/ProductCard/ProductCard";
-import "./home.css";
+import "./Home.css";
 
 export default function HomePage() {
     const [products, setProducts] = useState<Product[]>([]);
