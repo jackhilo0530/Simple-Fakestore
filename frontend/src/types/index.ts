@@ -21,6 +21,7 @@ export type Cart = {
 };
 
 export interface OrderItem {
+    id: string;
     productId: number;
     quantity: number;
     title: string;
