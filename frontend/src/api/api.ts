@@ -1,53 +1,51 @@
-const VITE_API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:3000";
+import type { Cart, Order, Product } from "../types";
 
+const API_BASE = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8787/api";
 
-export async function getProducts() {
-    const res = await fetch(`${VITE_API_BASE}/products`, {credentials: "include"});
-    return res.json();
+async function request<T>(path: string, init?: RequestInit): Promise<T> {
+  const res = await fetch(`${API_BASE}${path}`, {
+    ...init,
+    credentials: "include",
+    headers: {
+      "content-type": "application/json",
+      ...(init?.headers ?? {})
+    }
+  });
+
+  const isJson = res.headers.get("content-type")?.includes("application/json");
+  const data = (isJson ? await res.json() : null) as unknown;
+
+  if (!res.ok) {
+    const msg =
+      (data as any)?.message ||
+      (data as any)?.error ||
+      `request failed: ${res.status}`;
+    throw new Error(msg);
+  }
+
+  return data as T;
 }
 
-export async function getProduct(id: number) {
-    const res = await fetch(`${VITE_API_BASE}/products/${id}`, {credentials: "include"});
-    return res.json();
-}
+export const api = {
+  // catalog
+  getProducts: () => request<Product[]>("/products"),
+  getProduct: (id: number) => request<Product>(`/products/${id}`),
 
-export async function getCart() {
-    const res = await fetch(`${VITE_API_BASE}/cart`, {credentials: "include"});
-    return res.json();
-}
+  // cart
+  getCart: () => request<Cart>("/cart"),
+  addToCart: (productId: number, quantity = 1) =>
+    request<Cart>("/cart/items", {
+      method: "POST",
+      body: JSON.stringify({ productId, quantity })
+    }),
+  setCartQty: (productId: number, quantity: number) =>
+    request<Cart>(`/cart/items/${productId}`, {
+      method: "PATCH",
+      body: JSON.stringify({ quantity })
+    }),
+  removeFromCart: (productId: number) =>
+    request<Cart>(`/cart/items/${productId}`, { method: "DELETE" }),
 
-export async function addToCart(productId: number, quantity = 1) {
-    const res = await fetch(`${VITE_API_BASE}/cart/items`, {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        credentials: "include",
-        body: JSON.stringify({productId, quantity}),
-    });
-    return res.json();
-}
-
-export async function setCartQty(productId: number, quantity: number) {
-    const res = await fetch(`${VITE_API_BASE}/cart/items/${productId}`, {
-        method: "PATCH",
-        headers: {"Content-Type": "application/json"},
-        credentials: "include",
-        body: JSON.stringify({quantity}),
-    });
-    return res.json();
-}
-
-export async function removeFromCart(productId: number){
-    const res = await fetch(`${VITE_API_BASE}/cart/items/${productId}`, {
-        method: "DELETE",
-        credentials: "include",
-    });
-    return res.json();
-}
-
-export async function checkout() {
-    const res = await fetch(`${VITE_API_BASE}/checkout`, {
-        method: "POST",
-        credentials: "include",
-    });
-    return res.json();
-}
+  // checkout
+  checkout: () => request<Order>("/checkout", { method: "POST" })
+};
