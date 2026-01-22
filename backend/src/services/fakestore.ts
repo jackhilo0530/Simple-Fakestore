@@ -16,6 +16,15 @@ export async function fetchProducts({skip = 0, limit = 10}) {
     return (await res.json()) as FakeStoreProduct[];
 }
 
+export async function getTotalProductsCount() {
+    const res = await fetch(`${BASE_URL}/products`);
+    if(!res.ok) {
+        throw new Error("Failed to fetch products count");
+    }
+    const products = await res.json();
+    return products.length;
+}
+
 export async function fetchProduct(id: number) {
     const res = await fetch(`${BASE_URL}/products/${id}`);
     if(!res.ok) throw new Error("failed to fetch product");
