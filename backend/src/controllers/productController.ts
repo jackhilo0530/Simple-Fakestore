@@ -9,10 +9,16 @@ const parseId = (c: Context) => {
     return id;
 }
 
+const PRODUCTS_PER_PAGE = 10;
+
 export const ProductController = {
     getProducts: async (c: Context) => {
         try{
-            const products = await fetchProducts();
+            const page = Number(c.req.query("page") || 1);
+            const limit = Number(c.req.query("limit") || PRODUCTS_PER_PAGE);
+            const skip = (page - 1) * limit;
+
+            const products = await fetchProducts({skip, limit});
             return c.json(products);
         } catch (error) {
             return c.json({message: "internal server error"}, 500)
