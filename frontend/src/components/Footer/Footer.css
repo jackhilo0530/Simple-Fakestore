@@ -1,0 +1,11 @@
+.footer {
+    border-top: 1px solid #e7e9ee;
+    background: white;
+    margin-top: 24px;
+}
+
+.footer-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 16px;
+}

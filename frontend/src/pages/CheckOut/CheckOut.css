@@ -1,0 +1,56 @@
+.checkout {
+    display: grid;
+    gap: 12px;
+}
+
+.checkout-card {
+    padding: 14px;
+    display: grid;
+    gap: 12px;
+    max-width: 700px;
+}
+
+.checkout-row {
+    justify-content: space-between;
+}
+
+.checkout-total {
+    font-weight: 900;
+    font-size: 18px;
+}
+
+.checkout-items {
+    display: grid;
+    gap: 10px;
+    border-top: 1px solid #e7e9ee;
+    padding-top: 12px;
+}
+
+.checkout-item {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 10px;
+    align-items: center;
+}
+
+.checkout-item img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    border: 1px solid #e7e9ee;
+    border-radius: 10px;
+    background: #fff;
+}
+
+.checkout-title {
+    font-size: 14px;
+    line-height: 1.2;
+}
+
+.mono {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+.error {
+    color: #b42318;
+}
