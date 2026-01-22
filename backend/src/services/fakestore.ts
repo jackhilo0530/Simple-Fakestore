@@ -1,4 +1,4 @@
-const BASE = process.env.BASE || "https://fakestoreapi.com";
+const BASE_URL = process.env.BASE || "https://fakestoreapi.com";
 
 export type FakeStoreProduct = {
     id: number;
@@ -11,13 +11,13 @@ export type FakeStoreProduct = {
 };
 
 export async function fetchProducts() {
-    const res = await fetch(`${BASE}/products`);
+    const res = await fetch(`${BASE_URL}/products`);
     if(!res.ok) throw new Error("failed to fetch products");
     return (await res.json()) as FakeStoreProduct[];
 }
 
 export async function fetchProduct(id: number) {
-    const res = await fetch(`${BASE}/products/${id}`);
+    const res = await fetch(`${BASE_URL}/products/${id}`);
     if(!res.ok) throw new Error("failed to fetch product");
     return (await res.json()) as FakeStoreProduct;
 }
