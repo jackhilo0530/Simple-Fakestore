@@ -12,22 +12,27 @@ export default function CartPage() {
 
     const [products, setProducts] = useState<Product[]>([]);
     const [productsLoading, setProductsLoading] = useState(true);
+    const [page, setPage] = useState<number>(1);
+    const PRODUCTS_PER_PAGE = 10;
 
     useEffect(() => {
         (async () => {
             try {
                 setProductsLoading(true);
-                const list = await api.getProducts();
-                setProducts(list);
+                const {products: productList, total} = await api.getProducts(page, PRODUCTS_PER_PAGE);
+                setProducts(productList);
+            } catch (e) {
+                console.error("Error fetching products", e);
+                setProducts([]);
             } finally {
                 setProductsLoading(false);
             }
         })();
-    }, []);
+    }, [page]);
 
     const productById = useMemo(() => {
         const m = new Map<number, Product>();
-        for (const p of products) m.set(p.id, p);
+        products.forEach((p) => m.set(p.id, p)) ;
         return m;
     }, [products]);
 
@@ -58,9 +63,22 @@ export default function CartPage() {
             ) : (
                 <>
                     <div className="cart-list">
-                        {(productsLoading ? cart.items : cart.items).map((i) => (
-                            <CartItem key={i.id} item={i} product={productById.get(i.productId)} />
-                        ))}
+                        {productsLoading ? (
+                            <p>Loading products...</p>
+                        ) : (
+                            cart.items.map((item) => {
+                                const product = productById.get(item.productId);  // Fetch the corresponding product
+                                return (
+                                    product ? (
+                                        <CartItem key={item.id} item={item} product={product} />
+                                    ) : (
+                                        <div key={item.id} className="cart-item-placeholder">
+                                            <p>Product not found</p>
+                                        </div>
+                                    )
+                                );
+                            })
+                        )}
                     </div>
 
                     <div className="card cart-summary">
