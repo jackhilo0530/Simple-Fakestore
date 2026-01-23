@@ -28,7 +28,15 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
 
 export const api = {
   // catalog
-  getProducts: () => request<Product[]>("/products"),
+  getProducts: async (page: number, limit: number) => {
+    
+    const res = await fetch(`${API_BASE}/products?page=${page}&limit=${limit}`);
+    const data = await res.json();
+    return {
+      products: Array.isArray(data.products) ? data.products : [],
+      total: data.total || 0
+    };
+  },
   getProduct: (id: number) => request<Product>(`/products/${id}`),
 
   // cart
