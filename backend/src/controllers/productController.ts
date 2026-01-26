@@ -1,5 +1,5 @@
 import {Context} from "hono";
-import {fetchProducts, fetchProduct} from "../services/fakestore";
+import {fetchProducts, fetchProduct, getTotalProductsCount} from "../services/fakestore";
 
 const parseId = (c: Context) => {
     const id = Number(c.req.param("id"));
@@ -9,11 +9,18 @@ const parseId = (c: Context) => {
     return id;
 }
 
+const PRODUCTS_PER_PAGE = 10;
+
 export const ProductController = {
     getProducts: async (c: Context) => {
         try{
-            const products = await fetchProducts();
-            return c.json(products);
+            const page = Number(c.req.query("page") || 1);
+            const limit = Number(c.req.query("limit") || PRODUCTS_PER_PAGE);
+            const skip = (page - 1) * limit;
+
+            const products = await fetchProducts({skip, limit});
+            const totalProducts = await getTotalProductsCount();
+            return c.json({products, total: totalProducts});
         } catch (error) {
             return c.json({message: "internal server error"}, 500)
         }
